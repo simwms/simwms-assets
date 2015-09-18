@@ -1,5 +1,5 @@
 {
-  "name": "simwms-asset-components",
+  "name": "simwms-assets",
   "dependencies": {
     "ember": "1.13.7",
     "ember-cli-shims": "ember-cli/ember-cli-shims#0.0.3",
@@ -11,6 +11,11 @@
     "ember-resolver": "~0.1.18",
     "jquery": "^1.11.3",
     "loader.js": "ember-cli/loader.js#3.2.1",
-    "qunit": "~1.18.0"
+    "qunit": "~1.18.0",
+    "materialize": "~0.97.1",
+    "compass-mixins": "Igosuki/compass-mixins#0.12.7"
+  },
+  "resolutions": {
+    "jquery": "^1.11.3"
   }
 }

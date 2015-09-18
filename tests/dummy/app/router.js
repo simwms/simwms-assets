@@ -6,6 +6,9 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.resource("tiles", {path: "/tiles"}, function(){
+    this.resource("tiles.tile", {path: "t/:id"}, function(){});
+  });
 });
 
 export default Router;

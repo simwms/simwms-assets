@@ -2,5 +2,5 @@
 'use strict';
 
 module.exports = {
-  name: 'simwms-asset-components'
+  name: 'simwms-assets'
 };

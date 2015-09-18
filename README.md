@@ -1,6 +1,14 @@
-# Simwms-asset-components
+# Simwms-assets
 
-This README outlines the details of collaborating on this Ember addon.
+This addon contains all the ember components and associated stylesheets for spiffy material UI.
+
+>note: this is ultra alpha (hell, pre-alpha) software (which is why this isn't published) use at your own risk!
+
+## Featured Components
+`+` means the component now works, `-` means the component has not yet been implemented
+
++ Material tile collection
+- Material fancy loader
 
 ## Installation
 

@@ -1,0 +1,21 @@
+<h4>Material Tiles: AKA grid lists</h4>
+<a href="https://www.google.com/design/spec/components/grid-lists.html#grid-lists-specs" target="blank">
+  Read google's design specs regarding this this
+</a>
+
+<h5>Example: as action buttons</h5>
+{{#material-tiles-collection tiles=tiles as |tile|}}
+  {{#material-tile action="click" actionArg=tile background=tile.background}}
+    <div class="tile-title">{{tile.title}}</div>
+    <div class="tile-subtitle">{{tile.artist}}</div>
+  {{/material-tile}}
+{{/material-tiles-collection}}
+
+<h5>Example: as links</h5>
+{{#material-tiles-collection tiles=tiles as |tile|}}
+  {{#material-tile-link "tiles.tile" tile.title background=tile.background}}
+    <div class="tile-title">{{tile.title}}</div>
+    <div class="tile-subtitle">{{tile.artist}}</div>
+  {{/material-tile-link}}
+{{/material-tiles-collection}}
+{{outlet}}
