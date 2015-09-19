@@ -1,0 +1,23 @@
+<h4>Material Fancy Loader: BS loader</h4>
+<p>
+  <a href="https://www.google.com/design/spec/components/progress-activity.html#progress-activity-types-of-indicators" target="blank">
+    Google's progress and activity specs can be found here
+  </a>
+</p>
+<p>This loader goes way beyond Google's simplistic loading bar / circle, and patronizes the user with bs so that the user gets the feeling that a conscious effort is being performed at his/her request. Useful with post requests that are changing server state anyway.</p>
+
+{{#material-fancy-loader class="row" isBusy=isBusy}}
+  <form {{action "submit" on="submit"}}>
+    <div class="input-field col s6">
+      <input placeholder="Placeholder" id="first_name" type="text" class="validate">
+      <label for="first_name">First Name</label>
+    </div>
+    <div class="input-field col s6">
+      <input id="last_name" type="text" class="validate">
+      <label for="last_name">Last Name</label>
+    </div>
+      <button class="btn waves-effect waves-light" type="submit">
+        Submit
+      </button>
+  </form>
+{{/material-fancy-loader}}
