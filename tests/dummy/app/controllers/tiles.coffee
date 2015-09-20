@@ -8,6 +8,8 @@ TilesController = Ember.Controller.extend
   ]
 
   actions:
+    star: (tile) ->
+      alert "you tried to star #{tile.title} - #{tile.artist}"
     click: (tile) ->
       alert "tile clicked #{tile.title} - #{tile.artist}"
 

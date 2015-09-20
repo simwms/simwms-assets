@@ -19,3 +19,13 @@
   {{/material-tile-link}}
 {{/material-tiles-collection}}
 {{outlet}}
+
+<h5>Example: with secondary actions</h5>
+{{#material-tiles-collection tiles=tiles as |tile|}}
+  {{#material-tile-link "tiles.tile" tile.title background=tile.background}}
+    {{#material-tile-secondary icon="fa fa-star fa-2x" action=(action "star" tile)}}
+      <div class="tile-title">{{tile.title}}</div>
+      <div class="tile-subtitle">{{tile.artist}}</div>
+    {{/material-tile-secondary}}
+  {{/material-tile-link}}
+{{/material-tiles-collection}}

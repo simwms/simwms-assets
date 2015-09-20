@@ -56,4 +56,16 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  .icon-side {
+    text-align: right;
+    padding: 1rem;
+    margin-right: -1rem;
+    cursor: pointer;
+  }
+}
+.material-tile-secondary {
+  @include display-flex;
+  @include justify-content(space-between);
+  @include flex-direction(row);
+  @include align-items(center);
 }
