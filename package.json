@@ -1,7 +1,7 @@
 {
   "name": "simwms-assets",
-  "version": "0.0.1",
-  "description": "The default blueprint for ember-cli addons.",
+  "version": "0.0.2",
+  "description": "My personal collection of materialize extensions",
   "directories": {
     "doc": "doc",
     "test": "tests"
