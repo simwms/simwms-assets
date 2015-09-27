@@ -1,0 +1,28 @@
+.material-list {
+  .material-list-li {
+    padding: 1rem;
+  }
+  .material-list-primary-icon {
+    width: 2rem;
+    &.col {
+      padding: 0;
+    }
+  }
+  .material-list-material-content {
+    width: auto;
+  }
+  .material-list-primary-content {
+    font-size: 1.2rem;
+  }
+  .material-list-secondary-content {
+    font-size: 0.85rem;
+    color: color("grey", "darken-4");
+  }
+  .material-list-flex-center {
+    @include display-flex;
+    @include align-items(center);
+    &.row {
+      margin-bottom: 0;
+    }
+  }
+}

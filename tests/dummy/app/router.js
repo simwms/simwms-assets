@@ -10,6 +10,7 @@ Router.map(function() {
     this.resource("tiles.tile", {path: "t/:id"}, function(){});
   });
   this.route("loader");
+  this.route("list");
 });
 
 export default Router;

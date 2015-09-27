@@ -1,0 +1,19 @@
+{{#each listItems as |listItem|}}
+  <li class="material-list-li">
+    <div class="material-list-flex-center row">
+      {{#if listItem.hasIcon}}
+        <div class="col material-list-primary-icon">
+          <i class={{listItem.iconClass}}></i>
+        </div>
+      {{/if}}
+      <div class="col material-list-material-content">
+        <div class="material-list-primary-content">{{listItem.primary}}</div>
+        {{#if listItem.secondary}}
+          <div class="material-list-secondary-content">{{listItem.secondary}}</div>
+        {{/if}}
+      </div>
+    </div>
+  </li>  
+{{else}}
+  {{yield}}
+{{/each}}
