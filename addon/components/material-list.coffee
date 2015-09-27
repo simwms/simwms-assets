@@ -26,7 +26,7 @@ MaterialListComponent = Ember.Component.extend
 
   listItems: computed.filter "rawListItems", (li) ->
     return true unless @get "skipBlank"
-    Ember.isPresent li.get("isPresent")
+    Ember.isPresent li.get("primary")
 
   rawListItems: computed "model", "iconMap", "displayKeys.[]", ->
     model = @get "model"

@@ -11,7 +11,7 @@ ListController = Ember.Controller.extend
       primary: "single"
       secondary: "since 1995"
 
-  keys: Ember.A ["name", "title", "job", "age", "martialStatus"]
+  keys: Ember.A ["name", "title", "job", "age", "martialStatus", "nonfield"]
   icons:
     name: "fa fa-user fa-lg"
     title: "fa fa-institution fa-lg"
