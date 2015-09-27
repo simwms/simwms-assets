@@ -7,8 +7,12 @@ This addon contains all the ember components and associated stylesheets for spif
 ## Featured Components
 `+` means the component now works, `-` means the component has not yet been implemented
 
-+ Material tile collection
-- Material fancy loader
++ Material tile collection: also known as grid tiles
++ Material fancy loader: a busy loader with a ton of bs
++ Material object listify: a way to present a js / ember object as a list
+- Material sky bar
+- Material earth bar
+- Material side bar
 
 ## Installation
 

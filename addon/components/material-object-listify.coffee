@@ -1,5 +1,5 @@
 `import Ember from 'ember'`
-`import layout from '../templates/components/material-list'`
+`import layout from '../templates/components/material-object-listify'`
 
 computed = Ember.computed
 
@@ -16,7 +16,7 @@ ListItem = Ember.Object.extend
         else @set "primary", value
 
 
-MaterialListComponent = Ember.Component.extend
+MaterialObjectListifyComponent = Ember.Component.extend
   layout: layout
   classNames: ["material-list"]
   tagName: "ul"
@@ -36,4 +36,4 @@ MaterialListComponent = Ember.Component.extend
         value: Ember.get model, key
         icon: Ember.get iconMap, key
 
-`export default MaterialListComponent`
+`export default MaterialObjectListifyComponent`

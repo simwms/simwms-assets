@@ -40,7 +40,8 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    ENV.baseURL = "simwms-assets";
+    ENV.locationType = "hash";
   }
 
   return ENV;
