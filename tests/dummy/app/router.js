@@ -11,6 +11,7 @@ Router.map(function() {
   });
   this.route("loader");
   this.route("list");
+  this.route("card");
 });
 
 export default Router;
