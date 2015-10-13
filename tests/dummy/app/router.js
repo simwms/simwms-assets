@@ -11,7 +11,12 @@ Router.map(function() {
   });
   this.route("loader");
   this.route("list");
-  this.route("card");
+  this.resource("cards", {path: "/cards"}, function(){
+    this.route("quartet");
+    this.route("quadforce");
+    this.route("triplet");
+    this.route("triforce");
+  });
 });
 
 export default Router;

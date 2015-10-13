@@ -49,3 +49,20 @@
     }
   }
 }
+
+.material-power-card-container.triforce {
+  &:nth-child(3) {
+    @media #{$large-and-up} {
+      margin-left: 25%;
+    }
+  }
+}
+
+.material-power-card-container.quadforce {
+  &:first-child,
+  &:last-child {
+    @media #{$medium-and-up} {
+      margin-left: 25%;
+    }
+  }
+}

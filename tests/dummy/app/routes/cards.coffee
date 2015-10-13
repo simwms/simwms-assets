@@ -17,8 +17,8 @@ Ray =
   style: "Family cool-dad"
   image: "http://i.imgur.com/yEpekDy.jpg"
 
-CardController = Ember.Route.extend
+CardsController = Ember.Route.extend
   model: ->
     Ember.A [Ellen, Jerry, Louis, Ray]
 
-`export default CardController`
+`export default CardsController`

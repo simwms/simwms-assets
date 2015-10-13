@@ -1,0 +1,52 @@
+
+<h3>Card Triplet: vanilla</h3>
+{{#material-cards-collection cards=model as |card|}}
+  {{#material-power-card image=card.image}}
+    <div class="power-card-content">
+      <div class="power-card-title">
+        {{card.name}}
+      </div>
+      <div class="power-card-subtitle">
+        {{card.style}}
+      </div>
+    </div>
+  {{/material-power-card}}
+{{/material-cards-collection}}
+
+<h3>Card Triplet: action and link</h3>
+{{#material-cards-collection cards=model as |card|}}
+  {{#material-power-card image=card.image}}
+    {{#link-to "cards" class="power-card-link"}}
+      <div class="power-card-link-content">
+        <div class="power-card-title">
+          {{card.name}}
+        </div>
+        <div class="power-card-subtitle">
+          {{card.style}}
+        </div>
+      </div>
+      <div class="power-card-link-icon">
+        <i class="fa fa-phone fa-2x"></i>
+      </div>
+    {{/link-to}}
+  {{/material-power-card}}
+{{/material-cards-collection}}
+
+<h3>Card Triplet: double link</h3>
+{{#material-cards-collection cards=model as |card|}}
+  {{#material-card-link "index" image=card.image}}
+    {{#link-to "cards" class="power-card-link"}}
+      <div class="power-card-link-content">
+        <div class="power-card-title">
+          {{card.name}}
+        </div>
+        <div class="power-card-subtitle">
+          {{card.style}}
+        </div>
+      </div>
+      <div class="power-card-link-icon">
+        <i class="fa fa-phone fa-2x"></i>
+      </div>
+    {{/link-to}}
+  {{/material-card-link}}
+{{/material-cards-collection}}
