@@ -10,6 +10,9 @@ MaterialTileLinkComponent = Ember.LinkComponent.extend
     imageLink = @get("background")
     return if Ember.isBlank imageLink
     "background-image: url('#{imageLink}');"
+  init: ->
+    @_super arguments...
+    @attrs.hasBlock = true
 
 MaterialTileLinkComponent.reopenClass
   positionalParams: 'params'

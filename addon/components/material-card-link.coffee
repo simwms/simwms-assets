@@ -4,7 +4,9 @@
 
 MaterialCardLinkComponent = Ember.LinkComponent.extend CardCore,
   layout: layout
-
+  init: ->
+    @_super arguments...
+    @attrs.hasBlock = true
 MaterialCardLinkComponent.reopenClass
   positionalParams: 'params'
 
