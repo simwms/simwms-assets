@@ -9,6 +9,7 @@ Router.map(function() {
   this.resource("tiles", {path: "/tiles"}, function(){
     this.resource("tiles.tile", {path: "t/:id"}, function(){});
   });
+  this.route("hero");
   this.route("loader");
   this.route("list");
   this.resource("cards", {path: "/cards"}, function(){

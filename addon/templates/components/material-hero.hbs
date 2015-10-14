@@ -1,0 +1,23 @@
+<div class="material-hero-images-collection">
+  {{#each pics as |pic|}}
+    <img class="material-hero-image" src={{pic}}>
+  {{/each}}
+</div>
+<div class="material-hero-content">
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+        {{yield}}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="material-hero-pagination">
+  {{#each segments as |segment|}}
+    {{#if segment.active}}
+      <i class="fa fa-circle fa-lg"></i>
+    {{else}}
+      <i class="fa fa-circle-o fa-lg" {{action "scrollTo" segment}}></i>
+    {{/if}}
+  {{/each}}
+</div>

@@ -1,0 +1,65 @@
+.material-hero {
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  background-color: #222;
+  .material-hero-content {
+    position: absolute;
+    display: inline-block;
+    overflow: hidden;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  .material-hero-images-collection {
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+  .material-hero-image {
+    display: inline-block;
+  }
+  .material-hero-pagination {
+    display: block;
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    right: 0;
+    text-align: center;
+  }
+}
+
+.material-hero-pagination {
+  i {
+    cursor: pointer;
+  }
+}
+
+.material-big-hero {
+  .material-hero-images-collection {
+    height: 450px;
+  }
+  .material-hero-image {
+    height: 450px;
+  }
+}
+
+.material-med-hero {
+  .material-hero-images-collection {
+    height: 300px;
+  }
+  .material-hero-image {
+    height: 300px;
+  }
+}
+
+.material-small-hero {
+  .material-hero-images-collection {
+    height: 150px;
+  }
+  .material-hero-image {
+    height: 150px;
+  }
+}
