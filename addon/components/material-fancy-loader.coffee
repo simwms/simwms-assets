@@ -64,6 +64,9 @@ MaterialFancyLoaderComponent = Ember.Component.extend
     k = @get "halfLife"
     decayPrime t, k
 
+  willDestroyElement: ->
+    @finishProgress()
+
   resetLoader: Ember.observer "isInFlight", ->
     if @get "isInFlight"
       @set "progressPercentage", 0
