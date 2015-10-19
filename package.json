@@ -1,6 +1,6 @@
 {
   "name": "simwms-assets",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "My personal collection of materialize extensions",
   "directories": {
     "doc": "doc",
