@@ -26,3 +26,17 @@ svg.map-grid {
     fill: none;
   }
 }
+
+.entrance {
+  cursor: pointer;
+}
+
+.door {
+  stroke: #898;
+  stroke-width: 3;
+  fill: #a88;
+  cursor: pointer;
+  &:hover {
+    fill: #f88;
+  }
+}

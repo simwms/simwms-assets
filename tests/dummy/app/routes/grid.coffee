@@ -1,8 +1,16 @@
 `import Ember from 'ember'`
 
-Route = Ember.Route.extend
+{Route, Object: O} = Ember
+
+GridRoute = Route.extend
   model: ->
-    house: Ember.Object.create
+    door: O.create
+      type: "door"
+      origin:
+        x: 0
+        y: 0
+      angle: 90
+    house: O.create
       type: "house"
       origin:
         x: 3
@@ -17,7 +25,7 @@ Route = Ember.Route.extend
         {x: 2, y: 1}
         {x: 2, y: 0}
       ]
-    road: Ember.Object.create
+    road: O.create
       type: "road"
       origin:
         x: 2
@@ -28,5 +36,10 @@ Route = Ember.Route.extend
         {x: 3, y: 7}
         {x: 2, y: 4}
       ]
+    tile: O.create
+      type: "entrance"
+      origin:
+        x: 1
+        y: 1
 
-`export default Route`
+`export default GridRoute`

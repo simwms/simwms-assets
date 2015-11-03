@@ -5,6 +5,9 @@
 
 
 {{#map-grid}}
-  {{map-grid-polygon model=house}}
+  {{#map-grid-polygon model=house}}
+    {{map-grid-edge-attachment model=door}}
+  {{/map-grid-polygon}}
   {{map-grid-polyline model=road}}
+  {{map-grid-tile model=tile}}
 {{/map-grid}}
