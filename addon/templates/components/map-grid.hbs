@@ -1,0 +1,15 @@
+<g class="map-grid-canvas" transform={{canvasTransform}}>
+  {{#if gridVisible}}
+    <g class="map-grid-lines">
+      {{#each lines as |line|}}
+        <line x1="{{line.x1}}" y1="{{line.y1}}" 
+              x2="{{line.x2}}" y2="{{line.y2}}" 
+              stroke="{{line.stroke}}" 
+              stroke-width="{{line.strokeWidth}}" />
+      {{/each}}
+    </g>
+  {{/if}}
+  <g class="map-grid-contents">
+    {{yield}}
+  </g>
+</g>

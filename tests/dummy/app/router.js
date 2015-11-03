@@ -12,6 +12,7 @@ Router.map(function() {
   this.route("hero");
   this.route("loader");
   this.route("list");
+  this.route("grid");
   this.resource("cards", {path: "/cards"}, function(){
     this.route("quartet");
     this.route("quadforce");
