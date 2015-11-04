@@ -4,7 +4,15 @@
 <p>Ships with scrollability, tile numeration, and possibly zooming in the future</p>
 
 
-{{#map-grid}}
+<button {{action "toggleMode"}}>
+  {{#if isBuildMode}}
+    Exit Build Mode
+  {{else}}
+    Enter Build Mode
+  {{/if}}
+</button>
+
+{{#map-grid mode=mode action="build"}}
   {{#map-grid-polygon model=house}}
     {{map-grid-edge-attachment model=door}}
   {{/map-grid-polygon}}

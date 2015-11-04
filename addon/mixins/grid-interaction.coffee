@@ -1,6 +1,6 @@
 `import Ember from 'ember'`
 
-{computed, isBlank, Mixin, Object: O} = Ember
+{getWithDefault, computed, isBlank, Mixin, Object: O} = Ember
 
 GridInteractionMixin = Mixin.create
   translateX: 0
@@ -10,13 +10,15 @@ GridInteractionMixin = Mixin.create
     get: -> @_interactionMode
     set: (_key, newMode) ->
       oldMode = @_interactionMode
-      switch
-        when newMode is oldMode 
+      switch newMode
+        when oldMode 
           @_interactionMode = newMode
-        when newMode is "select-mode" and oldMode is "drag-mode"
+        when "build-mode"
+          @_interactionMode = newMode
+        when "select-mode"
           @origin = null
           @_interactionMode = newMode
-        when newMode is "drag-mode" and oldMode is "select-mode"
+        when "drag-mode"
           @origin = null
           @_interactionMode = newMode
         else throw new Error("I don't know how to go from '#{oldMode}' to '#{newMode}'")
@@ -46,32 +48,52 @@ GridInteractionMixin = Mixin.create
     if (delta = @calculateDragDelta event)
       @drag(delta) 
 
+  buildModeMouse: (event) ->
+
   drag: ({dx, dy}) ->
     @incrementProperty "translateX", dx
     @incrementProperty "translateY", dy
 
-  selectModeMouse: ->
-    # @incrementProperty "translateX", dx / 2
-    # @incrementProperty "translateY", dy / 2
+  calculateGridPosition: (event) ->
+    {offsetX: x0, offsetY: y0, childModel: cm} = event
+    ox = if cm? then getWithDefault(cm, "origin.x", 0) else 0
+    oy = if cm? then getWithDefault(cm, "origin.y", 0) else 0
+    dx = @get "translateX"
+    dy = @get "translateY"
+    k = @get "pixelsPerLength"
+    event.gridX = (x0 - dx) / k
+    event.gridY = (y0 - dy) / k
+    event.gridRelX = event.gridX - ox
+    event.gridRelY = event.gridY - oy
+    event
 
   ## Actual Events  
   touchMove: ->
     alert "touch moved"
   
   mouseDown: (event) ->
-    if event.button is 0
-      @set "interactionMode", "drag-mode"
+    switch @get "interactionMode"
+      when "select-mode"
+        if event.button is 0
+          @set "interactionMode", "drag-mode"
+      else return
 
   mouseMove: (event) ->
     switch @get "interactionMode"
       when "drag-mode" then @dragModeMouse(event)
-      when "select-mode" then @selectModeMouse(event)
+      when "build-mode" then @buildModeMouse(event)
       when null then throw new Error("Ember is stupid")
       else return
 
   mouseUp: (event) ->
-    if event.button is 0
-      @set "interactionMode", "select-mode"
+    switch @get "interactionMode"
+      when "drag-mode"
+        if event.button is 0
+          @set "interactionMode", "select-mode"
+      when "build-mode"
+        if event.button is 0
+          @sendAction "action", @calculateGridPosition(event)
+      else return
 
   mouseLeave: ->
     @set "interactionMode", "select-mode"

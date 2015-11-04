@@ -3,6 +3,7 @@
 `import GridInteraction from '../mixins/grid-interaction'`
 
 {Component, computed, Object: O} = Ember
+{alias} = computed
 
 Line = O.extend
   stroke: "#444"
@@ -20,7 +21,7 @@ MapGridComponent = Component.extend GridInteraction,
   pixelsPerLength: 75
   attributeBindings: ["draggable"]
   draggable: true
-
+  mode: alias "interactionMode"
   lines: computed "dimensions.width", "dimensions.height", "pixelsPerLength",
     get: ->
       lines = Ember.A()

@@ -12,8 +12,10 @@ MapGridPolygonComponent = Component.extend GridElement,
   classNameBindings: ["type"]
   type: alias "model.type"
 
-  actions:
-    interact: ->
-      @sendAction "action", @get("model")
+  mouseUp: (event) ->
+    event.childModel = @get "model"
+    @get "parentView"
+    ?.mouseUp?event
+    return false
 
 `export default MapGridPolygonComponent`
