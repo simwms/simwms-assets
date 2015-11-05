@@ -4,6 +4,8 @@
 
 GridRoute = Route.extend
   model: ->
+    ghost: O.create
+      type: "point"
     door: O.create
       type: "door"
       origin:

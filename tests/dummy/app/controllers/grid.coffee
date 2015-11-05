@@ -7,13 +7,12 @@ GridController = Controller.extend
   house: alias "model.house"
   tile: alias "model.tile"
   door: alias "model.door"
-
+  ghost: alias "model.ghost"
   mode: "build-mode"
   isBuildMode: equal "mode", "build-mode"
   actions:
-    build: ({gridX, gridY, gridRelX, gridRelY}) ->
-      console.log "grid@(#{gridX}, #{gridY})"
-      console.log "rel@(#{gridRelX}, #{gridRelY})"
+    build: (event) ->
+      @set "lastEvent", event
       
     toggleMode: ->
       switch @get "mode"

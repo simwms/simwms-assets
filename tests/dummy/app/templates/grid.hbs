@@ -12,10 +12,29 @@
   {{/if}}
 </button>
 
-{{#map-grid mode=mode action="build"}}
+{{#map-grid mode=mode action="build" as |grid|}}
+  {{#if (eq grid.mode "build-mode")}}
+    {{map-grid-ghost model=ghost}}
+  {{/if}}
   {{#map-grid-polygon model=house}}
     {{map-grid-edge-attachment model=door}}
   {{/map-grid-polygon}}
   {{map-grid-polyline model=road}}
   {{map-grid-tile model=tile}}
 {{/map-grid}}
+
+{{#if lastEvent}}
+  <ul>
+    <li>childModel: {{lastEvent.childModel}}</li>
+    <li>gridX: {{lastEvent.gridX}}</li>
+    <li>gridY: {{lastEvent.gridY}}</li>
+    <li>gridRelX: {{lastEvent.gridRelX}}</li>
+    <li>gridRelY: {{lastEvent.gridRelY}}</li>
+    <li>snapGridX: {{lastEvent.snapGridX}}</li>
+    <li>snapGridY: {{lastEvent.snapGridY}}</li>
+    <li>snapGridRelX: {{lastEvent.snapGridRelX}}</li>
+    <li>snapGridRelY: {{lastEvent.snapGridRelY}}</li>
+  </ul>
+{{else}}
+  <h4>Nothing yet!</h4>
+{{/if}}
