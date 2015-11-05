@@ -4,7 +4,7 @@
 <p>Ships with scrollability, tile numeration, and possibly zooming in the future</p>
 
 
-<button {{action "toggleMode"}}>
+<button class="btn-large" {{action "toggleMode"}}>
   {{#if isBuildMode}}
     Exit Build Mode
   {{else}}
@@ -12,15 +12,22 @@
   {{/if}}
 </button>
 
+<button class="btn-large {{if (eq ghost.ghostType "point") "disabled"}}" {{action "toggleGhost" "point"}}>
+  one point
+</button>
+<button class="btn-large {{if (eq ghost.ghostType "tile") "disabled"}}" {{action "toggleGhost" "tile"}}>
+  tile
+</button>
+
 {{#map-grid mode=mode action="build" as |grid|}}
-  {{#if (eq grid.mode "build-mode")}}
-    {{map-grid-ghost model=ghost}}
-  {{/if}}
   {{#map-grid-polygon model=house}}
     {{map-grid-edge-attachment model=door}}
   {{/map-grid-polygon}}
   {{map-grid-polyline model=road}}
   {{map-grid-tile model=tile}}
+  {{#if (eq grid.mode "build-mode")}}
+    {{map-grid-ghost model=ghost}}
+  {{/if}}
 {{/map-grid}}
 
 {{#if lastEvent}}

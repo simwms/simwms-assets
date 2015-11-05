@@ -16,4 +16,10 @@ MapGridPolylineComponent = Ember.Component.extend GridElement,
     ?.mouseUp?event
     return false
 
+  mouseMove: (event) ->
+    event.childModel = @get "model"
+    @get "parentView"
+    ?.mouseMove?event
+    return false
+
 `export default MapGridPolylineComponent`
