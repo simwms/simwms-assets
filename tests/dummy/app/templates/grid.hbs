@@ -15,19 +15,21 @@
 <button class="btn-large {{if (eq ghost.ghostType "point") "disabled"}}" {{action "toggleGhost" "point"}}>
   one point
 </button>
+<button class="btn-large {{if (eq ghost.ghostType "2point") "disabled"}}" {{action "toggleGhost" "2point"}}>
+  two point
+</button>
 <button class="btn-large {{if (eq ghost.ghostType "tile") "disabled"}}" {{action "toggleGhost" "tile"}}>
   tile
 </button>
 
-{{#map-grid mode=mode action="build" as |grid|}}
+{{#map-grid mode=mode as |grid|}}
   {{#map-grid-polygon model=house}}
     {{map-grid-edge-attachment model=door}}
   {{/map-grid-polygon}}
   {{map-grid-polyline model=road}}
   {{map-grid-tile model=tile}}
-  {{#if (eq grid.mode "build-mode")}}
-    {{map-grid-ghost model=ghost}}
-  {{/if}}
+  
+  {{map-grid-ghost model=ghost action="build"}}
 {{/map-grid}}
 
 {{#if lastEvent}}

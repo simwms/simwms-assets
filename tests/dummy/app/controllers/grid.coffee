@@ -11,8 +11,8 @@ GridController = Controller.extend
   mode: "build-mode"
   isBuildMode: equal "mode", "build-mode"
   actions:
-    build: (event) ->
-      @set "lastEvent", event
+    build: (e1, e2) ->
+      @set "lastEvent", e1
 
     toggleGhost: (type) ->
       @set "ghost.ghostType", type

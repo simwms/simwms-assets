@@ -2,22 +2,31 @@
 `import multimerge from '../utils/multimerge'`
 
 {getWithDefault, computed, isPresent, isBlank, Mixin, Object: O} = Ember
-
+KnownModes = ["query-mode", "select-mode", "drag-mode", "build-mode"]
 Kernel =
+  registerGhost: (ghost) ->
+    @set "ghost", ghost
+
+  unregisterGhost: (ghost) ->
+    @set "ghost", null
+
   translateX: 0
   translateY: 0
   _interactionMode: "select-mode"
   interactionMode: computed
     get: -> @_interactionMode
     set: (_key, newMode) ->
+      @_defaultMode = newMode if isBlank @_defaultMode
       oldMode = @_interactionMode
       return oldMode if oldMode is newMode
       switch oldMode
+        when "query-mode" then @tearDownQueryMode?oldMode
         when "build-mode" then @tearDownBuildMode?oldMode
         when "select-mode" then @tearDownSelectMode?oldMode
         when "drag-mode" then @tearDownDragMode?oldMode
         else throw new Error("I don't know how tear down '#{oldMode}'")
       switch newMode
+        when "query-mode" then @setupQueryMode?oldMode
         when "build-mode" then @setupBuildMode?oldMode
         when "select-mode" then @setupSelectMode?oldMode
         when "drag-mode" then @setupDragMode?oldMode
@@ -31,6 +40,7 @@ Kernel =
 
   mouseMove: (event) ->
     switch @get "interactionMode"
+      when "select-mode" then @selectModeMouseMove(event)
       when "drag-mode" then @dragModeMouseMove(event)
       when "build-mode" then @buildModeMouseMove(event)
       when null then throw new Error("Ember is stupid")
@@ -38,6 +48,7 @@ Kernel =
 
   mouseUp: (event) ->
     switch @get "interactionMode"
+      when "select-mode" then @selectModeMouseUp(event)
       when "drag-mode" then @dragModeMouseUp(event)
       when "build-mode" then @buildModeMouseUp(event)
       else return
@@ -45,12 +56,28 @@ Kernel =
   mouseLeave: ->
     switch @get "interactionMode"
       when "drag-mode" then @dragModeMouseLeave(event)
-      else  return
+      else return
 
 SelectMode =
+  setupSelectMode: ->
+    @selectLassoStart = null
+  tearDownSelectMode: ->
+    @selectLassoStart = null
+
+  selectModeMouseMove: (event) ->
+    if @selectLassoStart?
+      Ember.sendEvent "ghost", "lassoMove", event
+
+  selectModeMouseUp: (event) ->
+
   selectModeMouseDown: (event) ->
-    if event.button is 0
-      @set "interactionMode", "drag-mode"
+    switch event.button
+      when 0 # left mouse
+        @set "interactionMode", "drag-mode"
+      when 2 # right mouse
+        @selectLassoStart = event
+        Ember.sendEvent "selectGhost", "lassoStart", event
+      else return
 
 DragMode =
   setupDragMode: ->
@@ -95,20 +122,20 @@ DragMode =
     @incrementProperty "translateY", dy
 
 BuildMode =
-  registerGhost: (ghost) ->
-    @set "buildGhost", ghost
-
-  unregisterGhost: (ghost) ->
-    @set "buildGhost", null
+  setupBuildMode: ->
+    @get("ghost")?.refreshGhost()
+  tearDownBuildMode: ->
+    @get("ghost")?.refreshGhost()
 
   buildModeMouseMove: (event) ->
-    if isPresent(ghost = @get "buildGhost")
+    if isPresent(ghost = @get "ghost")
       e = @calculateGridPosition event
       Ember.sendEvent ghost, "ghostMove", [e]
 
   buildModeMouseUp: (event) ->
-    if event.button is 0
-      @sendAction "action", @calculateGridPosition(event)
+    if isPresent(ghost = @get "ghost")
+      e = @calculateGridPosition event
+      Ember.sendEvent ghost, "ghostMouseUp", [e]
 
   calculateGridPosition: (event) ->
     {offsetX: x0, offsetY: y0, childModel: cm} = event
@@ -121,8 +148,8 @@ BuildMode =
     event.gridY = (y0 - dy) / k
     event.gridRelX = event.gridX - ox
     event.gridRelY = event.gridY - oy
-    event.snapGridX = @get "buildGhost.gx"
-    event.snapGridY = @get "buildGhost.gy"
+    event.snapGridX = @get "ghost.gx"
+    event.snapGridY = @get "ghost.gy"
     event.snapGridRelX = event.snapGridX - ox
     event.snapGridRelY = event.snapGridY - oy
     event

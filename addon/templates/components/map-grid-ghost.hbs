@@ -1,1 +1,18 @@
-{{yield}}
+{{#if is1point}}
+  <circle class="ghost-circle" cx="0" cy="0" r="{{r}}" />
+{{else if is2point}}
+  <circle class="ghost-circle" cx="0" cy="0" r="{{r}}" />
+  {{#if onSecondPoint}}
+    <circle class="ghost-circle" cx="{{xf}}" cy="{{yf}}" r="{{r}}" />
+    <line class="ghost-line" 
+      x1="0" y1="0" 
+      x2="{{xf}}" y2="{{yf}}" />
+  {{/if}}
+{{else if isTile}}
+  <rect class="ghost-rect" 
+    x="0" y="0" 
+    rx="10" ry="10"
+    width="{{width}}" height="{{height}}" />
+{{else}}
+  <text class="ghost-error">Unknown Ghost</text>
+{{/if}}
