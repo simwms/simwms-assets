@@ -1,6 +1,23 @@
 `import Ember from 'ember'`
 
-{Route, Object: O} = Ember
+{run, Route, Object: O} = Ember
+
+every = (time, cb) ->
+  window.setInterval cb, time
+
+Spinner = O.extend
+  origin:
+    x: 1
+    y: 1
+    a: 0
+  incrementAngle: ->
+    @incrementProperty("origin.a", 5)
+    a = @get("origin.a")
+    @set "origin.a", a % 360
+
+  init: ->
+    every 100, =>
+      @incrementAngle()
 
 GridRoute = Route.extend
   model: ->
@@ -38,10 +55,8 @@ GridRoute = Route.extend
         {x: 3, y: 7}
         {x: 2, y: 4}
       ]
-    tile: O.create
+    tile: Spinner.create
       type: "entrance"
-      origin:
-        x: 1
-        y: 1
+      tileImage: "assets/images/truck.png"
 
 `export default GridRoute`

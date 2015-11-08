@@ -20,11 +20,9 @@ GridController = Controller.extend
       console.log model
       @set "lastEvent", e1
 
-    select: (model, e1, e2) ->
+    select: (models) ->
       console.log "select:"
-      console.log model
-      console.log e1
-      console.log e2
+      console.log models
 
     toggleGhost: (type) ->
       @set "ghost.ghostType", type

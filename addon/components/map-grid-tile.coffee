@@ -2,7 +2,7 @@
 `import layout from '../templates/components/map-grid-tile'`
 
 {computed} = Ember
-{alias} = computed
+{alias, and: present} = computed
 
 MapGridTileComponent = Ember.Component.extend
   tagName: "g"
@@ -10,6 +10,7 @@ MapGridTileComponent = Ember.Component.extend
   iconText: "x"
   classNames: ["map-grid-tile"]
   classNameBindings: ["type"]
+  hasTileImage: present "model.tileImage"
   type: alias "model.type"
   attributeBindings: ["transform"]
   pixelsPerLength: alias "parentView.pixelsPerLength"
@@ -22,14 +23,23 @@ MapGridTileComponent = Ember.Component.extend
     get: ->
       0.5 * @get "pixelsPerLength"
 
-  transform: computed "origin.x", "origin.y", "pixelsPerLength",
+  transform: computed "origin.x", "origin.y", "pixelsPerLength", "origin.a",
     get: ->
       k = @get "pixelsPerLength"
       x = @get "origin.x"
       y = @get "origin.y"
-      "translate(#{x * k}, #{y * k})"
+      a = @getWithDefault "origin.a", 0
+      "translate(#{x * k}, #{y * k}) rotate(#{a}, #{0.5*k}, #{0.5*k})"
 
   click: ->
     @sendAction "action", @get("model")
+
+  willInsertElement: ->
+    @get("parentView")
+    ?.registerSelectable @get "model"
+
+  willDestroyElement: ->
+    @get("parentView")
+    ?.unregisterSelectable @get "model"
 
 `export default MapGridTileComponent`
