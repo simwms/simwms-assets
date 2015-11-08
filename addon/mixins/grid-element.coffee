@@ -9,6 +9,7 @@ GridElementMixin = Mixin.create
   classNameBindings: ["selected", "type", "mode"]
   type: alias "model.type"
   mode: alias "parentView.mode"
+  selected: alias "model.selected"
   attributeBindings: ["transform"]
   pixelsPerLength: alias "parentView.pixelsPerLength"
   origin: alias "model.origin"
@@ -26,6 +27,12 @@ GridElementMixin = Mixin.create
     .mouseMove?event
     return false
 
+  click: (event) ->
+    event.childModel = @get "model"
+    @get "parentView"
+    .click?event
+    return false    
+
   transform: computed "origin.x", "origin.y", "pixelsPerLength",
     get: ->
       k = @get "pixelsPerLength"
@@ -39,5 +46,13 @@ GridElementMixin = Mixin.create
       @get "points"
       .map (point) -> "#{k * get(point, "x")},#{k * get(point, "y")}"
       .join " "
+
+  willInsertElement: ->
+    @get("parentView")
+    ?.registerSelectable @get "model"
+
+  willDestroyElement: ->
+    @get("parentView")
+    ?.unregisterSelectable @get "model"
 
 `export default GridElementMixin`

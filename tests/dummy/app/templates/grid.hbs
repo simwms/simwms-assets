@@ -4,32 +4,41 @@
 <p>Ships with scrollability, tile numeration, and possibly zooming in the future</p>
 
 
-<button class="btn-large" {{action "toggleMode"}}>
-  {{#if isBuildMode}}
-    Exit Build Mode
-  {{else}}
-    Enter Build Mode
-  {{/if}}
-</button>
+<div>
+  <button class="btn-large {{if (eq mode "query-mode") "disabled"}}" {{action "toggleMode" "query-mode"}}>
+    Query Mode
+  </button>
+  <button class="btn-large {{if (eq mode "select-mode") "disabled"}}" {{action "toggleMode" "select-mode"}}>
+    Select Mode
+  </button>
+  <button class="btn-large {{if (eq mode "build-mode") "disabled"}}" {{action "toggleMode" "build-mode"}}>
+    Build Mode
+  </button>
+  <button class="btn-large {{if (eq mode "drag-mode") "disabled"}}" {{action "toggleMode" "drag-mode"}}>
+    Drag Mode
+  </button>
+</div>
 
-<button class="btn-large {{if (eq ghost.ghostType "point") "disabled"}}" {{action "toggleGhost" "point"}}>
-  one point
-</button>
-<button class="btn-large {{if (eq ghost.ghostType "2point") "disabled"}}" {{action "toggleGhost" "2point"}}>
-  two point
-</button>
-<button class="btn-large {{if (eq ghost.ghostType "tile") "disabled"}}" {{action "toggleGhost" "tile"}}>
-  tile
-</button>
+<div>
+  <button class="btn-large {{if (eq ghost.ghostType "point") "disabled"}}" {{action "toggleGhost" "point"}}>
+    one point
+  </button>
+  <button class="btn-large {{if (eq ghost.ghostType "2point") "disabled"}}" {{action "toggleGhost" "2point"}}>
+    two point
+  </button>
+  <button class="btn-large {{if (eq ghost.ghostType "tile") "disabled"}}" {{action "toggleGhost" "tile"}}>
+    tile
+  </button>
+</div>
 
-{{#map-grid mode=mode as |grid|}}
+{{#map-grid mode=mode action="query" as |grid|}}
   {{#map-grid-polygon model=house}}
     {{map-grid-edge-attachment model=door}}
   {{/map-grid-polygon}}
   {{map-grid-polyline model=road}}
   {{map-grid-tile model=tile}}
-  
   {{map-grid-ghost model=ghost action="build"}}
+  {{map-grid-ghost-box action="select"}}
 {{/map-grid}}
 
 {{#if lastEvent}}

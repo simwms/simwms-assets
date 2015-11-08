@@ -8,21 +8,29 @@ GridController = Controller.extend
   tile: alias "model.tile"
   door: alias "model.door"
   ghost: alias "model.ghost"
-  mode: "build-mode"
+  mode: "query-mode"
   isBuildMode: equal "mode", "build-mode"
   actions:
-    build: (e1, e2) ->
+    query: (model) ->
+      console.log "query:"
+      console.log model
+
+    build: (model, e1, e2) ->
+      console.log "build:"
+      console.log model
       @set "lastEvent", e1
+
+    select: (model, e1, e2) ->
+      console.log "select:"
+      console.log model
+      console.log e1
+      console.log e2
 
     toggleGhost: (type) ->
       @set "ghost.ghostType", type
       
-    toggleMode: ->
-      switch @get "mode"
-        when "select-mode"
-          @set "mode", "build-mode"
-        else 
-          @set "mode", "select-mode"
+    toggleMode: (mode) ->
+      @set "mode", mode
 
 
 `export default GridController`

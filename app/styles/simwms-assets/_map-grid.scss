@@ -13,3 +13,17 @@ svg.map-grid {
     text-anchor: middle;
   }
 }
+
+.ghost-polygon {
+  stroke: #84ffff;
+  stroke-width: 2;
+  fill: #e0f7fa;
+}
+
+.map-grid-ghost.inactive {
+  display: none;
+}
+
+.map-grid-ghost-box.inactive {
+  display: none;
+}
