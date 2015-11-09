@@ -13,7 +13,7 @@ Router.map(function() {
   this.route("loader");
   this.route("list");
   this.route("grid");
-  this.route("floor-plan");
+  this.route("collapsible");
   this.resource("cards", {path: "/cards"}, function(){
     this.route("quartet");
     this.route("quadforce");

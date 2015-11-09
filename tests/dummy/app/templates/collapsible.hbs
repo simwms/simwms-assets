@@ -1,0 +1,30 @@
+<h4>Link Collapsible</h4>
+<p>
+  <a href="http://materializecss.com/collapsible.html" target="blank">
+    Materialize collapsible
+  </a>
+</p>
+<p>
+  Collapsibles are handy for a lot of things, yet no one seems to want to implement them as linkable components, which is a gross oversight
+</p>
+<p>
+  These things are particular useful for changing query params via a link
+</p>
+
+{{#material-accordion-collection}}
+  {{#material-accordion "collapsible" (query-params e="facebook") icon="fa-facebook" title="facebook"}}
+    facebook is a waste of time and makes the user unhappy
+  {{/material-accordion}}
+  {{#material-accordion "collapsible" (query-params e="twitter") icon="fa-twitter" title="twitter"}}
+    twitter is a pointless bastion of social justice and idiocy
+  {{/material-accordion}}
+  {{#material-accordion "collapsible" (query-params e="github") icon="fa-github" title="github"}}
+    my kind of social / professional network
+  {{/material-accordion}}
+  {{#material-accordion "collapsible" (query-params e="linkedin") icon="fa-linkedin" title="linkedin"}}
+    where bot recruiters spam you with emails, but if you reply, they never follow up
+  {{/material-accordion}}
+  {{#material-accordion "collapsible" (query-params e="reddit") icon="fa-reddit" title="reddit"}}
+    for 4channers who think they're too good for 4chan
+  {{/material-accordion}}
+{{/material-accordion-collection}}

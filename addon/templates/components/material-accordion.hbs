@@ -1,0 +1,33 @@
+{{#if (eq paramCount 1)}}
+  {{#link-to paramRoute class="collapsible-header"}}
+    {{#if faIcon}}
+      <i class="fa {{faIcon}}"></i>
+    {{else if mdIcon}}
+      <i class="{{mdIcon}}"></i>
+    {{/if}}
+    <span class="material-accordion-title">{{title}}</span>
+  {{/link-to}}
+{{else if (eq paramCount 2)}}
+  {{#link-to paramRoute paramModel class="collapsible-header"}}
+    {{#if faIcon}}
+      <i class="fa {{faIcon}}"></i>
+    {{else if mdIcon}}
+      <i class="{{mdIcon}}"></i>
+    {{/if}}
+    <span class="material-accordion-title">{{title}}</span>
+  {{/link-to}}
+{{else if (eq paramCount 3)}}
+  {{#link-to paramRoute paramModel paramOpts class="collapsible-header"}}
+    {{#if faIcon}}
+      <i class="fa {{faIcon}}"></i>
+    {{else if mdIcon}}
+      <i class="{{mdIcon}}"></i>
+    {{/if}}
+    <span class="material-accordion-title">{{title}}</span>
+  {{/link-to}}
+{{else}}
+  <h3>Error, you passed in too many parameters to this material accordion</h3>
+{{/if}}
+<div class="collapsible-body">
+  {{yield}}
+</div>
