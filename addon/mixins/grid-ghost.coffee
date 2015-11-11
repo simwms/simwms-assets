@@ -30,6 +30,8 @@ GridGhostMixin = Mixin.create
       @set "gxf", @snap(gridX)
       @set "gyf", @snap(gridY)
     else
+      @set "gxf", @snap(gridX)
+      @set "gyf", @snap(gridY)
       @set "gx0", @snap(gridX)
       @set "gy0", @snap(gridY)
 

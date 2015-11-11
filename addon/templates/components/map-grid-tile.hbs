@@ -2,13 +2,16 @@
   <image xlink:href="{{model.tileImage}}" 
     x="0" y="0" 
     width="{{pixelsPerLength}}" height="{{pixelsPerLength}}" />
-
+  {{#if selected}}
+    <rect x="0" y="0"
+      width="{{pixelsPerLength}}" height="{{pixelsPerLength}}" 
+      class="tile-selected-rect" />
+  {{/if}}
 {{else}}
-  <rect x="0" y="0"
+  <rect class="tile-rect" 
+    x="0" y="0"
     rx="10" ry="10" 
-    width="{{pixelsPerLength}}" height="{{pixelsPerLength}}" 
-    stroke-width="{{stroke.width}}" stroke="{{stroke.color}}" 
-    fill="{{fill}}" />
+    width="{{pixelsPerLength}}" height="{{pixelsPerLength}}" />
 {{/if}}
 {{#if iconText}}
   <text class="fa" x="{{halfLength}}" y="{{halfLength}}">{{iconText}}</text>

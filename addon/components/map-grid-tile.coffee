@@ -5,20 +5,18 @@
 {alias, and: present} = computed
 
 MapGridTileComponent = Ember.Component.extend
+  shapeType: "tile"
   tagName: "g"
   layout: layout
   iconText: "x"
   classNames: ["map-grid-tile"]
-  classNameBindings: ["type"]
+  classNameBindings: ["type", "selected"]
+  selected: false
   hasTileImage: present "model.tileImage"
   type: alias "model.type"
   attributeBindings: ["transform"]
   pixelsPerLength: alias "parentView.pixelsPerLength"
   origin: alias "model.origin"
-  stroke:
-    width: 2
-    color: "#212121"
-  fill: "#eee"
   halfLength: computed "pixelsPerLength",
     get: ->
       0.5 * @get "pixelsPerLength"
@@ -36,10 +34,10 @@ MapGridTileComponent = Ember.Component.extend
 
   willInsertElement: ->
     @get("parentView")
-    ?.registerSelectable @get "model"
+    ?.registerSelectable @
 
   willDestroyElement: ->
     @get("parentView")
-    ?.unregisterSelectable @get "model"
+    ?.unregisterSelectable @
 
 `export default MapGridTileComponent`

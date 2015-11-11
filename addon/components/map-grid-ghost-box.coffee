@@ -42,14 +42,6 @@ MapGridGhostBoxComponent = Component.extend GridGhostMixin,
   width: diffprod "gxf", "gx0", "pixelsPerLength"
   height: diffprod "gyf", "gy0", "pixelsPerLength"
 
-  ghostMove: Ember.on "ghostMove", ({gridX, gridY}) ->
-    if @get "onSecondPoint"
-      @set "gxf", gridX
-      @set "gyf", gridY
-    else
-      @set "gx0", gridX
-      @set "gy0", gridY
-
   ghostDown: Ember.on "ghostDown", (event) ->
     onFirstPoint = not @get "onSecondPoint"
     if onFirstPoint
@@ -58,7 +50,8 @@ MapGridGhostBoxComponent = Component.extend GridGhostMixin,
   ghostUp: Ember.on "ghostUp", (event) ->
     onSecondPoint = @get "onSecondPoint"
     if onSecondPoint
-      models = @get("parentView")?.selectModelsBetween(@get("firstPoint"), event) ? []
+      @get("parentView")?.selectModelsBetween(@get("firstPoint"), event)
+      models = @getWithDefault("parentView.selectedComponents", []).mapBy "model"
       @sendAction "action", models, @get("firstPoint"), event
       @refreshGhost()
 

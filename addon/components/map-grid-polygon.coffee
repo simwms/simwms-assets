@@ -8,5 +8,6 @@
 MapGridPolygonComponent = Component.extend GridElement,
   layout: layout
   polygonClassNames: "map-grid-polygon"
+  shapeType: "polygon"
 
 `export default MapGridPolygonComponent`

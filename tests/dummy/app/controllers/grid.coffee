@@ -24,6 +24,10 @@ GridController = Controller.extend
       console.log "select:"
       console.log models
 
+    batch: (models) ->
+      console.log "batch"
+      console.log models
+
     toggleGhost: (type) ->
       @set "ghost.ghostType", type
       

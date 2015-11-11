@@ -14,8 +14,8 @@
   <button class="btn-large {{if (eq mode "build-mode") "disabled"}}" {{action "toggleMode" "build-mode"}}>
     Build Mode
   </button>
-  <button class="btn-large {{if (eq mode "drag-mode") "disabled"}}" {{action "toggleMode" "drag-mode"}}>
-    Drag Mode
+  <button class="btn-large {{if (eq mode "batch-mode") "disabled"}}" {{action "toggleMode" "batch-mode"}}>
+    Batch Mode
   </button>
 </div>
 
@@ -32,13 +32,12 @@
 </div>
 
 {{#map-grid mode=mode action="query" as |grid|}}
-  {{#map-grid-polygon model=house}}
-    {{map-grid-edge-attachment model=door}}
-  {{/map-grid-polygon}}
+  {{map-grid-polygon model=house}}
   {{map-grid-polyline model=road}}
   {{map-grid-tile model=tile}}
   {{map-grid-ghost model=ghost action="build"}}
   {{map-grid-ghost-box action="select"}}
+  {{map-grid-ghost-batch action="batch"}}
 {{/map-grid}}
 
 {{#if lastEvent}}

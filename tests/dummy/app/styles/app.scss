@@ -7,15 +7,13 @@ svg.map-grid {
   height: 700px;
 }
 
-.house {
-  polygon {
-    fill: #444;
-    stroke: black;
-    stroke-width: 3;
-    cursor: pointer;
-    &:hover {
-      fill: #555;
-    }
+polygon {
+  fill: #444;
+  stroke: black;
+  stroke-width: 3;
+  cursor: pointer;
+  &:hover {
+    fill: #555;
   }
 }
 
@@ -44,4 +42,10 @@ svg.map-grid {
 .ghost-line {
   stroke: #898;
   stroke-width: 3;
+}
+
+.ghost-rect {
+  stroke: #898;
+  stroke-width: 3;
+  fill: #e0f7fa;
 }

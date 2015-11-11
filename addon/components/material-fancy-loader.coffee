@@ -31,11 +31,11 @@ MaterialFancyLoaderComponent = Ember.Component.extend
   isBusy: Ember.computed.alias "isInFlight"
       
 
-  completeTasks: Ember.computed "progressIndex", "tasks.@each", ->
+  completeTasks: Ember.computed "progressIndex", "tasks.[]", ->
     i = @get "progressIndex"
     @get("tasks").slice(0, i)
 
-  incompleteTasks: Ember.computed "progressIndex", "tasks.@each", ->
+  incompleteTasks: Ember.computed "progressIndex", "tasks.[]", ->
     i = @get "progressIndex"
     @get("tasks").slice(i)
 

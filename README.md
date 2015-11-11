@@ -1,5 +1,8 @@
 # Simwms-assets
 
+1. get rid of drag mode in favor of scroll-at-edge
+2. select mode now goes into move mode and batch mode
+
 This addon contains all the ember components and associated stylesheets for spiffy material UI.
 
 visit https://simwms.github.io/simwms-assets for the demo

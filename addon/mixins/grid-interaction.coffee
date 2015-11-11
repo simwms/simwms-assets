@@ -2,8 +2,10 @@
 `import multimerge from '../utils/multimerge'`
 `import Geometry from '../utils/geometry'`
 
-{getWithDefault, A, computed, isPresent, isBlank, Mixin, Object: O} = Ember
-KnownModes = ["query-mode", "select-mode", "drag-mode", "build-mode"]
+{getWithDefault, A, computed, isEmpty, isPresent, isBlank, Mixin, Object: O} = Ember
+{filterBy} = computed
+
+KnownModes = ["query-mode", "select-mode", "batch-mode", "build-mode"]
 Kernel =
   registerGhost: (name, ghost) ->
     @set name, ghost
@@ -37,13 +39,13 @@ Kernel =
         when "query-mode" then @tearDownQueryMode?oldMode
         when "build-mode" then @tearDownBuildMode?oldMode
         when "select-mode" then @tearDownSelectMode?oldMode
-        when "drag-mode" then @tearDownDragMode?oldMode
+        when "batch-mode" then @tearDownBatchMode?oldMode
         else throw new Error("I don't know how tear down '#{oldMode}'")
       switch newMode
         when "query-mode" then @setupQueryMode?oldMode
         when "build-mode" then @setupBuildMode?oldMode
         when "select-mode" then @setupSelectMode?oldMode
-        when "drag-mode" then @setupDragMode?oldMode
+        when "batch-mode" then @setupBatchMode?oldMode
         else throw new Error("I don't know how to set up '#{newMode}'")
       @_interactionMode = newMode
 
@@ -55,42 +57,32 @@ Kernel =
   mouseDown: (event) ->
     switch @get "interactionMode"
       when "select-mode" then @selectModeMouseDown(event)
-      when "query-mode" then @queryModeMouseDown(event)
+      when "batch-mode" then @batchModeMouseDown(event)
       else return
 
   mouseMove: (event) ->
     switch @get "interactionMode"
       when "select-mode" then @selectModeMouseMove(event)
-      when "drag-mode" then @dragModeMouseMove(event)
       when "build-mode" then @buildModeMouseMove(event)
+      when "batch-mode" then @batchModeMouseMove(event)
       when null then throw new Error("Ember is stupid")
       else return
 
   mouseUp: (event) ->
     switch @get "interactionMode"
       when "select-mode" then @selectModeMouseUp(event)
-      when "drag-mode" then @dragModeMouseUp(event)
       when "build-mode" then @buildModeMouseUp(event)
+      when "batch-mode" then @batchModeMouseUp(event)
       else return
-
-  mouseLeave: ->
-    switch @get "interactionMode"
-      when "drag-mode" then @dragModeMouseLeave(event)
-      else return
-
 
 QueryMode =
-  queryModeMouseDown: (event) ->
-    if event.button is 0
-      @set "interactionMode", "drag-mode"
-
   queryModeClick: (event) ->
     if event.childModel?
       @sendAction "action", event.childModel, event
 
 modelWithinRect = (rect) ->
-  (model) -> 
-    Geometry.modelOverlapsShape(model, rect)
+  (component) -> 
+    Geometry.componentOverlapsShape(component, rect)
 
 makeRect = ({gridX: x0, gridY: y0}, {gridX: xf, gridY: yf}) ->
   [[x0, y0], [xf, y0], [xf, yf], [x0, yf]]
@@ -98,19 +90,26 @@ makeRect = ({gridX: x0, gridY: y0}, {gridX: xf, gridY: yf}) ->
 SelectMode =
   setupSelectMode: ->
     @get("selectGhost")?.refreshGhost()
+    @get "selectedComponents"
+    .map (component) ->
+      component.set "selected", false
   tearDownSelectMode: ->
     @get("selectGhost")?.refreshGhost()
 
-  selectableModels: A []
-  registerSelectable: (model) ->
-    @get("selectableModels").pushObject model
+  selectableComponents: A []
+  selectedComponents: filterBy "selectableComponents", "selected"
+  registerSelectable: (component) ->
+    @get("selectableComponents").pushObject component
 
-  unregisterSelectable: (model) ->
-    @get("selectableModels").removeObject model
+  unregisterSelectable: (component) ->
+    @get("selectableComponents").removeObject component
 
   selectModelsBetween: (e1, e2) ->
-    @getWithDefault("selectableModels", [])
+    @get("selectableComponents")
     .filter modelWithinRect(makeRect e1, e2)
+    .map (component) -> component.set "selected", true
+    if @getWithDefault("selectedComponents.length", 0) > 0
+      @set "interactionMode", "batch-mode"
 
   selectModeMouseMove: (event) ->
     if (ghost = @get "selectGhost")?
@@ -130,47 +129,31 @@ SelectMode =
       e = @calculateGridPosition(event)
       Ember.sendEvent ghost, "ghostDown", [e]
 
-DragMode =
-  setupDragMode: ->
-    @origin = null
-  tearDownDragMode: ->
-    @origin = null
+BatchMode =
+  setupBatchMode: ->
+    @get("batchGhost")?.refreshGhost()
+  tearDownBatchMode: ->
+    @get("batchGhost")?.refreshGhost()
+    @get "selectedComponents"
+    .map (component) ->
+      component.set "selected", false
 
-  canvasTransform: computed "translateX", "translateY", 
-    get: ->
-      x = @get "translateX"
-      y = @get "translateY"
-      "translate(#{x}, #{y})"
+  batchModeMouseDown: (event) ->
+    if event.button is 0 and (ghost = @get "batchGhost")?
+      e = @calculateGridPosition(event)
+      Ember.sendEvent ghost, "ghostDown", [e]
 
-  calculateDragDelta: ({offsetX, offsetY}) ->
-    if @origin?
-      delta = 
-        dx: offsetX - @origin.x
-        dy: offsetY - @origin.y
-      @origin =
-        x: offsetX
-        y: offsetY
-      delta
-    else
-      @origin =
-        x: offsetX
-        y: offsetY
-      dx: 0, dy: 0
+  batchModeMouseMove: (event) ->
+    if (ghost = @get "batchGhost")?
+      e = @calculateGridPosition(event)
+      Ember.sendEvent ghost, "ghostMove", [e]    
 
-  dragModeMouseUp: (event) ->
-    if event.button is 0
-      @set "interactionMode", "query-mode"
-
-  dragModeMouseLeave: (event) ->
-    @set "interactionMode", "query-mode"
-
-  dragModeMouseMove: (event) ->
-    if (delta = @calculateDragDelta event)
-      @drag(delta) 
-
-  drag: ({dx, dy}) ->
-    @incrementProperty "translateX", dx
-    @incrementProperty "translateY", dy
+  batchModeMouseUp: (event) ->
+    ghost = @get "batchGhost"
+    if event.button is 0 and ghost?
+      e = @calculateGridPosition(event)
+      Ember.sendEvent ghost, "ghostUp", [e]
+      @set "interactionMode", "select-mode"
 
 BuildMode =
   setupBuildMode: ->
@@ -199,6 +182,6 @@ BuildMode =
     event.snapGridRelY = event.snapGridY - oy
     event
 
-GridInteractionMixin = Mixin.create multimerge Kernel, QueryMode, SelectMode, DragMode, BuildMode
+GridInteractionMixin = Mixin.create multimerge Kernel, QueryMode, SelectMode, BatchMode, BuildMode
 
 `export default GridInteractionMixin`

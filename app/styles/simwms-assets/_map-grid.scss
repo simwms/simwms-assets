@@ -12,6 +12,13 @@ svg.map-grid {
   text {
     text-anchor: middle;
   }
+  .selected {
+    polygon,
+    polyline,
+    rect {
+      stroke: #84ffff;
+    }
+  }
 }
 
 .ghost-polygon {
@@ -25,5 +32,9 @@ svg.map-grid {
 }
 
 .map-grid-ghost-box.inactive {
+  display: none;
+}
+
+.map-grid-ghost-batch.inactive {
   display: none;
 }

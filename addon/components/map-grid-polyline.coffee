@@ -7,5 +7,6 @@
 
 MapGridPolylineComponent = Ember.Component.extend GridElement,
   layout: layout
+  shapeType: "polyline"
 
 `export default MapGridPolylineComponent`

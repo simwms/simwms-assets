@@ -20,13 +20,23 @@ squareAround = (o) ->
   [[x,y], [x+1, y], [x+1, y+1], [x, y+1]]
 
 class Geometry
-  @modelOverlapsShape = (model, shape) ->
-    @rectOverlap @normalizeModel(model), shape
+  @componentOverlapsShape = (component, shape) ->
+    model = component.get "model"
+    switch component.get("shapeType")
+      when "polygon", "tile"
+        @polygonOverlap @normalizeModel(model), shape
+      when "polyline"
+        @polylineOverlap @normalizeModel(model), shape
+      else return false
+
+  @polylineOverlap = (shape1, shape2) ->
+    return true if A(shape1).find enclosedBy(shape2)
+    false
 
   ## Shapes are just arrays of points
   ## Interpolation is linear between points
   ## May mess up for convex shapes
-  @rectOverlap = (shape1, shape2) ->
+  @polygonOverlap = (shape1, shape2) ->
     return true if A(shape1).find enclosedBy(shape2)
     return true if A(shape2).find enclosedBy(shape1)
     false

@@ -9,7 +9,7 @@ GridElementMixin = Mixin.create
   classNameBindings: ["selected", "type", "mode"]
   type: alias "model.type"
   mode: alias "parentView.mode"
-  selected: alias "model.selected"
+  selected: false
   attributeBindings: ["transform"]
   pixelsPerLength: alias "parentView.pixelsPerLength"
   origin: alias "model.origin"
@@ -49,10 +49,10 @@ GridElementMixin = Mixin.create
 
   willInsertElement: ->
     @get("parentView")
-    ?.registerSelectable @get "model"
+    ?.registerSelectable @
 
   willDestroyElement: ->
     @get("parentView")
-    ?.unregisterSelectable @get "model"
+    ?.unregisterSelectable @
 
 `export default GridElementMixin`

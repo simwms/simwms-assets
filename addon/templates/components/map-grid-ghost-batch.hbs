@@ -1,0 +1,12 @@
+{{#if dragState}}
+  {{#each selectedGhosts as |ghost|}}
+    <circle cx="{{ghost.cx}}" cy="{{ghost.cy}}" r="10" class="ghost-batch-circle" />
+  {{/each}}
+  {{#if onSecondPoint}}
+    <line class="ghost-line" 
+      x1="0" y1="0" 
+      x2="{{xf}}" y2="{{yf}}" />
+    <circle class="ghost-circle" cx="{{xf}}" cy="{{yf}}" r="{{r}}" />
+  {{/if}}
+  <circle class="ghost-circle" cx="0" cy="0" r="{{r}}" />
+{{/if}}
