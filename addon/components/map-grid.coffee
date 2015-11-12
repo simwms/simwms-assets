@@ -2,12 +2,16 @@
 `import layout from '../templates/components/map-grid'`
 `import GridInteraction from '../mixins/grid-interaction'`
 
-{Component, computed, Object: O} = Ember
+{Component, computed, run, Object: O} = Ember
 {alias} = computed
 
 Line = O.extend
   stroke: "#444"
   strokeWidth: "1"
+
+xlog = (x) ->
+  console.log x
+  x
 
 MapGridComponent = Component.extend GridInteraction,
   layout: layout
@@ -19,6 +23,8 @@ MapGridComponent = Component.extend GridInteraction,
     height: 20
   gridVisible: true
   pixelsPerLength: 75
+  width: 0
+  height: 0
   attributeBindings: ["draggable"]
   draggable: true
   mode: alias "interactionMode"
@@ -41,5 +47,12 @@ MapGridComponent = Component.extend GridInteraction,
         y1: y0 * k
         x2: xf * k
         y2: yf * k
+
+  didInsertElement: ->
+    run.later @, @introspectDimensions, 100
+  
+  introspectDimensions: ->
+    @set "width", @$().width()
+    @set "height", @$().height()
 
 `export default MapGridComponent`

@@ -38,3 +38,8 @@ svg.map-grid {
 .map-grid-ghost-batch.inactive {
   display: none;
 }
+
+.map-grid-edge-scroll {
+  stroke: none;
+  fill: fade-out(#fff, 1);
+}

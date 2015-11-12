@@ -5,7 +5,7 @@
 {getWithDefault, A, computed, isEmpty, isPresent, isBlank, Mixin, Object: O} = Ember
 {filterBy} = computed
 
-KnownModes = ["query-mode", "select-mode", "batch-mode", "build-mode"]
+KnownModes = ["query-mode", "select-mode", "batch-mode", "build-mode", "drag-mode"]
 Kernel =
   registerGhost: (name, ghost) ->
     @set name, ghost
@@ -36,12 +36,14 @@ Kernel =
       oldMode = @_interactionMode
       return oldMode if oldMode is newMode
       switch oldMode
+        when "drag-mode" then @tearDownDragMode?oldMode
         when "query-mode" then @tearDownQueryMode?oldMode
         when "build-mode" then @tearDownBuildMode?oldMode
         when "select-mode" then @tearDownSelectMode?oldMode
         when "batch-mode" then @tearDownBatchMode?oldMode
         else throw new Error("I don't know how tear down '#{oldMode}'")
       switch newMode
+        when "drag-mode" then @setupDragMode?oldMode
         when "query-mode" then @setupQueryMode?oldMode
         when "build-mode" then @setupBuildMode?oldMode
         when "select-mode" then @setupSelectMode?oldMode
@@ -56,12 +58,14 @@ Kernel =
 
   mouseDown: (event) ->
     switch @get "interactionMode"
+      when "query-mode" then @queryModeMouseDown(event)
       when "select-mode" then @selectModeMouseDown(event)
       when "batch-mode" then @batchModeMouseDown(event)
       else return
 
   mouseMove: (event) ->
     switch @get "interactionMode"
+      when "drag-mode" then @dragModeMouseMove(event)
       when "select-mode" then @selectModeMouseMove(event)
       when "build-mode" then @buildModeMouseMove(event)
       when "batch-mode" then @batchModeMouseMove(event)
@@ -70,12 +74,16 @@ Kernel =
 
   mouseUp: (event) ->
     switch @get "interactionMode"
+      when "drag-mode" then @dragModeMouseUp(event)
       when "select-mode" then @selectModeMouseUp(event)
       when "build-mode" then @buildModeMouseUp(event)
       when "batch-mode" then @batchModeMouseUp(event)
       else return
 
 QueryMode =
+  queryModeMouseDown: (event) ->
+    if event.button is 0
+      @set "interactionMode", "drag-mode"
   queryModeClick: (event) ->
     if event.childModel?
       @sendAction "action", event.childModel, event
@@ -182,6 +190,57 @@ BuildMode =
     event.snapGridRelY = event.snapGridY - oy
     event
 
-GridInteractionMixin = Mixin.create multimerge Kernel, QueryMode, SelectMode, BatchMode, BuildMode
+DragMode =
+  setupDragMode: ->
+    @origin = null
+  tearDownDragMode: ->
+    @origin = null
+
+  canvasTransform: computed "translateX", "translateY", 
+    get: ->
+      x = @get "translateX"
+      y = @get "translateY"
+      "translate(#{x}, #{y})"
+
+  calculateDragDelta: ({offsetX, offsetY}) ->
+    if @origin?
+      delta = 
+        dx: offsetX - @origin.x
+        dy: offsetY - @origin.y
+      @origin =
+        x: offsetX
+        y: offsetY
+      delta
+    else
+      @origin =
+        x: offsetX
+        y: offsetY
+      dx: 0, dy: 0
+
+  dragModeMouseUp: (event) ->
+    if event.button is 0
+      @set "interactionMode", "query-mode"
+
+  dragModeMouseLeave: (event) ->
+    @set "interactionMode", "query-mode"
+
+  dragModeMouseMove: (event) ->
+    if (delta = @calculateDragDelta event)
+      @drag(delta) 
+
+  drag: ({dx, dy}) ->
+    x = @get "translateX"
+    y = @get "translateY"
+    width = @getWithDefault "dimensions.width", 1
+    height = @getWithDefault "dimensions.height", 1
+    viewportWidth = @getWithDefault("width", 0) - 75
+    viewportHeight = @getWithDefault("height", 0) - 75
+    k = @getWithDefault "pixelsPerLength", 1
+
+    if (viewportWidth - width * k) < x + dx < 75
+      @incrementProperty "translateX", dx
+    if (viewportHeight - height * k) < y + dy < 75
+      @incrementProperty "translateY", dy
+GridInteractionMixin = Mixin.create multimerge Kernel, QueryMode, SelectMode, BatchMode, BuildMode, DragMode
 
 `export default GridInteractionMixin`
