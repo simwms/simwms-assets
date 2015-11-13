@@ -46,6 +46,7 @@ GridRoute = Route.extend
       ]
     road: O.create
       type: "road"
+      thickness: 0.25
       origin:
         x: 2
         y: 2

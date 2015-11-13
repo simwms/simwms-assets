@@ -1,2 +1,5 @@
+{{#if hasThickness}}
+  <polygon points="{{thicknessPointsString}}" class="polyline-thickness-polygon" />
+{{/if}}
 <polyline points="{{pointsString}}" class="{{polygonClassNames}}" />
 {{yield}}
