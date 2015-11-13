@@ -13,7 +13,7 @@ Kernel =
   unregisterGhost: (name) ->
     @set name, null
 
-  calculateGridPosition: (event) ->
+  calculateGridPosition: (event, ghost) ->
     {offsetX: x0, offsetY: y0, childModel: cm} = event
     ox = if cm? then getWithDefault(cm, "origin.x", 0) else 0
     oy = if cm? then getWithDefault(cm, "origin.y", 0) else 0
@@ -24,6 +24,11 @@ Kernel =
     event.gridY = (y0 - dy) / k
     event.gridRelX = event.gridX - ox
     event.gridRelY = event.gridY - oy
+    if ghost?
+      event.snapGridX = ghost.get "gx"
+      event.snapGridY = ghost.get "gy"
+      event.snapGridRelX = event.snapGridX - ox
+      event.snapGridRelY = event.snapGridY - oy
     event
 
   translateX: 0
@@ -148,18 +153,18 @@ BatchMode =
 
   batchModeMouseDown: (event) ->
     if event.button is 0 and (ghost = @get "batchGhost")?
-      e = @calculateGridPosition(event)
+      e = @calculateGridPosition(event, ghost)
       Ember.sendEvent ghost, "ghostDown", [e]
 
   batchModeMouseMove: (event) ->
     if (ghost = @get "batchGhost")?
-      e = @calculateGridPosition(event)
+      e = @calculateGridPosition(event, ghost)
       Ember.sendEvent ghost, "ghostMove", [e]    
 
   batchModeMouseUp: (event) ->
     ghost = @get "batchGhost"
     if event.button is 0 and ghost?
-      e = @calculateGridPosition(event)
+      e = @calculateGridPosition(event, ghost)
       Ember.sendEvent ghost, "ghostUp", [e]
       @set "interactionMode", "select-mode"
 
@@ -171,24 +176,13 @@ BuildMode =
 
   buildModeMouseMove: (event) ->
     if isPresent(ghost = @get "buildGhost")
-      e = @calculateSnapGridPosition event
+      e = @calculateGridPosition event, ghost
       Ember.sendEvent ghost, "ghostMove", [e]
 
   buildModeMouseUp: (event) ->
     if isPresent(ghost = @get "buildGhost")
-      e = @calculateSnapGridPosition event
+      e = @calculateGridPosition event, ghost
       Ember.sendEvent ghost, "ghostMouseUp", [e]
-
-  calculateSnapGridPosition: (event) ->
-    event = @calculateGridPosition(event)
-    {childModel: cm} = event
-    ox = if cm? then getWithDefault(cm, "origin.x", 0) else 0
-    oy = if cm? then getWithDefault(cm, "origin.y", 0) else 0
-    event.snapGridX = @get "buildGhost.gx"
-    event.snapGridY = @get "buildGhost.gy"
-    event.snapGridRelX = event.snapGridX - ox
-    event.snapGridRelY = event.snapGridY - oy
-    event
 
 DragMode =
   setupDragMode: ->
