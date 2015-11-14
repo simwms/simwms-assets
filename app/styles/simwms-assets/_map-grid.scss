@@ -43,3 +43,16 @@ svg.map-grid {
   stroke: none;
   fill: fade-out(#fff, 1);
 }
+
+.map-grid-edge-scroll-top {
+  cursor: n-resize;
+}
+.map-grid-edge-scroll-bottom {
+  cursor: s-resize;
+}
+.map-grid-edge-scroll-left {
+  cursor: e-resize;
+}
+.map-grid-edge-scroll-right {
+  cursor: w-resize;
+}
