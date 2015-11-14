@@ -8,12 +8,13 @@ MapGridTileComponent = Ember.Component.extend
   shapeType: "tile"
   tagName: "g"
   layout: layout
-  iconText: "x"
+  iconText: alias "model.iconText"
   classNames: ["map-grid-tile"]
-  classNameBindings: ["type", "selected"]
+  classNameBindings: ["type", "selected", "tileType"]
   selected: false
   hasTileImage: present "model.tileImage"
   type: alias "model.type"
+  tileType: alias "model.tileType"
   attributeBindings: ["transform"]
   pixelsPerLength: alias "parentView.pixelsPerLength"
   origin: alias "model.origin"
