@@ -51,9 +51,6 @@ class Geometry
   ## Linear interpolation is assumed
   @curveAroundLine = (line, k) ->
     normals = map3 line, avgNormal
-    console.log get(line, "length")
-    console.log get(normals, "length")
-    
     forwLine = zipWith line, normals, shiftBy(k)
     backLine = zipWith line, normals, shiftBy(-k)
     while (p = backLine.popObject())
