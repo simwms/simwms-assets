@@ -6,7 +6,8 @@
 MapGridEdgeScrollComponent = Ember.Component.extend
   layout: layout
   tagName: "rect"
-  classNames: ["map-grid-edge-scroll", "positionalClassNames"]
+  classNames: ["map-grid-edge-scroll"]
+  classNameBindings: ["positionalClassNames"]
   positionalClassNames: computed "position",
     get: ->
       "map-grid-edge-scroll-#{@get "position"}"
