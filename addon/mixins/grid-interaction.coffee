@@ -105,6 +105,11 @@ deselectComponent = (component) ->
   return if get(component, "isDestroyed")
   component.set "selected", false
 
+physicallyPresentComponent = (component) ->
+  isPresent(component?.get("origin.x")) and
+  isPresent(component?.get("origin.y")) and
+  not get(component, "isDestroyed")
+
 SelectMode =
   setupSelectMode: ->
     @get("selectGhost")?.refreshGhost()
@@ -117,6 +122,7 @@ SelectMode =
   selectableComponents: A []
   selectedComponents: filterBy "selectableComponents", "selected"
   registerSelectable: (component) ->
+    return if @get("selectableComponents").contains component
     @get("selectableComponents").pushObject component
 
   unregisterSelectable: (component) ->
@@ -124,6 +130,7 @@ SelectMode =
 
   selectModelsBetween: (e1, e2) ->
     @get("selectableComponents")
+    .filter physicallyPresentComponent
     .filter modelWithinRect(makeRect e1, e2)
     .map (component) -> component.set "selected", true
     if @getWithDefault("selectedComponents.length", 0) > 0

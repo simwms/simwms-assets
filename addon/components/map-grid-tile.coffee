@@ -38,10 +38,10 @@ MapGridTileComponent = Ember.Component.extend
 
   willInsertElement: ->
     @get("parentView")
-    ?.registerSelectable @
+    .registerSelectable @
 
   willClearRender: ->
     @get("parentView")
-    ?.unregisterSelectable @
+    .unregisterSelectable @
 
 `export default MapGridTileComponent`
