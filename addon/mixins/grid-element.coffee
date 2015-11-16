@@ -53,6 +53,6 @@ GridElementMixin = Mixin.create
 
   willClearRender: ->
     @get("parentView")
-    .unregisterSelectable @
+    ?.unregisterSelectable @
 
 `export default GridElementMixin`
