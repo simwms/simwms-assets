@@ -13,6 +13,7 @@ linear = (m, x, negb) ->
     get: -> @get(m) * @get(x) - @get(negb)
 
 MapGridGhostComponent = Component.extend GridGhostMixin,
+  ghostName: "buildGhost"
   tagName: "g"
   layout: layout
   type: computed "model.ghostType",
@@ -45,10 +46,6 @@ MapGridGhostComponent = Component.extend GridGhostMixin,
       x = @get "x"
       y = @get "y"
       "translate(#{x}, #{y})"
-
-  willInsertElement: ->
-    @get "parentView"
-    .registerGhost "buildGhost", @
 
   ghostMouseUp: Ember.on "ghostMouseUp", (event) ->
     type = @get "type"

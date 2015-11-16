@@ -19,6 +19,7 @@ points = (xs...) ->
 translate = (x,y) -> "translate(#{x}, #{y})"
 
 MapGridGhostBoxComponent = Component.extend GridGhostMixin,
+  ghostName: "selectGhost"
   layout: layout
   tagName: "g"
   attributeBindings: ["transform"]
@@ -54,9 +55,5 @@ MapGridGhostBoxComponent = Component.extend GridGhostMixin,
       models = @getWithDefault("parentView.selectedComponents", []).mapBy "model"
       @sendAction "action", models, @get("firstPoint"), event
       @refreshGhost()
-
-  willInsertElement: ->
-    @get "parentView"
-    .registerGhost "selectGhost", @
 
 `export default MapGridGhostBoxComponent`

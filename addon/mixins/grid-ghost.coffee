@@ -13,6 +13,7 @@ GridGhostMixin = Mixin.create
   gy0: 0 # grid
   gxf: 0 # grid
   gyf: 0 # grid
+  ghostName: "vanillaGhost"
 
   ## Computed
   onSecondPoint: present "firstPoint"
@@ -43,5 +44,13 @@ GridGhostMixin = Mixin.create
       snapTarget
     else
       originalValue
+
+  willInsertElement: ->
+    @get "parentView"
+    .registerGhost @get("ghostName"), @
+
+  willClearRender: ->
+    @get "parentView"
+    .unregisterGhost @get("ghostName")
 
 `export default GridGhostMixin`

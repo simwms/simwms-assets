@@ -51,7 +51,7 @@ GridElementMixin = Mixin.create
     @get("parentView")
     ?.registerSelectable @
 
-  willDestroyElement: ->
+  willClearRender: ->
     @get("parentView")
     ?.unregisterSelectable @
 

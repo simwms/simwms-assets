@@ -16,6 +16,7 @@ linear = (m, x, negb) ->
 translate = (x,y) -> "translate(#{x}, #{y})"
 
 MapGridGhostBatchComponent = Ember.Component.extend GridGhostMixin,
+  ghostName: "batchGhost"
   layout: layout
   tagName: "g"
   attributeBindings: ["transform"]
@@ -49,10 +50,6 @@ MapGridGhostBatchComponent = Ember.Component.extend GridGhostMixin,
       ({x,y}) ->
         cx: (x - gx0) * k + xf
         cy: (y - gy0) * k + yf
-
-  willInsertElement: ->
-    @get "parentView"
-    .registerGhost "batchGhost", @
 
   ghostMove: Ember.on "ghostMove", ({gridX, gridY}) ->
     if @get "dragState"

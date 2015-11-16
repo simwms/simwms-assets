@@ -40,7 +40,7 @@ MapGridTileComponent = Ember.Component.extend
     @get("parentView")
     ?.registerSelectable @
 
-  willDestroyElement: ->
+  willClearRender: ->
     @get("parentView")
     ?.unregisterSelectable @
 
