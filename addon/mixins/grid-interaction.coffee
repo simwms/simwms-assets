@@ -2,7 +2,7 @@
 `import multimerge from '../utils/multimerge'`
 `import Geometry from '../utils/geometry'`
 
-{getWithDefault, A, computed, isEmpty, isPresent, isBlank, Mixin, Object: O} = Ember
+{getWithDefault, get, A, computed, isEmpty, isPresent, isBlank, Mixin, Object: O} = Ember
 {filterBy} = computed
 
 KnownModes = ["query-mode", "select-mode", "batch-mode", "build-mode", "drag-mode"]
@@ -100,12 +100,17 @@ modelWithinRect = (rect) ->
 makeRect = ({gridX: x0, gridY: y0}, {gridX: xf, gridY: yf}) ->
   [[x0, y0], [xf, y0], [xf, yf], [x0, yf]]
 
+deselectComponent = (component) ->
+  return unless component?
+  return if get(component, "isDestroyed")
+  component.set "selected", false
+
 SelectMode =
   setupSelectMode: ->
     @get("selectGhost")?.refreshGhost()
     @get "selectedComponents"
-    .map (component) ->
-      component.set "selected", false
+    .map deselectComponent
+      
   tearDownSelectMode: ->
     @get("selectGhost")?.refreshGhost()
 
@@ -148,8 +153,7 @@ BatchMode =
   tearDownBatchMode: ->
     @get("batchGhost")?.refreshGhost()
     @get "selectedComponents"
-    .map (component) ->
-      component.set "selected", false
+    .map deselectComponent
 
   batchModeMouseDown: (event) ->
     if event.button is 0 and (ghost = @get "batchGhost")?
