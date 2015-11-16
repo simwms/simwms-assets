@@ -30,8 +30,11 @@ MapGridTileComponent = Ember.Component.extend
       a = @getWithDefault "origin.a", 0
       "translate(#{x * k}, #{y * k}) rotate(#{a}, #{0.5*k}, #{0.5*k})"
 
-  click: ->
-    @sendAction "action", @get("model")
+  click: (event) ->
+    event.childModel = @get "model"
+    @get "parentView"
+    .click?event
+    return false
 
   willInsertElement: ->
     @get("parentView")
