@@ -66,15 +66,6 @@
 .pointer {
   cursor: pointer;
 }
-.opaque {
-  @include opacity(1);
-}
-.translucent {
-  @include opacity(0.7);
-}
-.transparent {
-  @include opacity(0);
-}
 .float-right {
   float: right;
 }
