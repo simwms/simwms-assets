@@ -27,6 +27,11 @@ svg.map-grid {
   fill: #e0f7fa;
 }
 
+.map-grid-line {
+  stroke: #999;
+  stroke-width: 1;
+}
+
 .map-grid-ghost.inactive {
   display: none;
 }

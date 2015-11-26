@@ -5,9 +5,7 @@
 {Component, computed, run, Object: O} = Ember
 {alias} = computed
 
-Line = O.extend
-  stroke: "#444"
-  strokeWidth: "1"
+Line = O.extend()
 
 xlog = (x) ->
   console.log x
