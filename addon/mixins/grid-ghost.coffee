@@ -1,7 +1,7 @@
 `import Ember from 'ember'`
 
 {Mixin, computed} = Ember
-{alias, equal, and: present} = computed
+{alias, oneWay, equal, and: present} = computed
 
 ifThenElse = (check, x, y) ->
   computed check, x, y,
@@ -19,7 +19,6 @@ GridGhostMixin = Mixin.create
   onSecondPoint: present "firstPoint"
   gx: ifThenElse "onSecondPoint", "gxf", "gx0"
   gy: ifThenElse "onSecondPoint", "gyf", "gy0"
-  grid: alias "parentView"
   pixelsPerLength: alias "grid.pixelsPerLength"
 
   ## Api
@@ -46,11 +45,11 @@ GridGhostMixin = Mixin.create
       originalValue
 
   willInsertElement: ->
-    @get "parentView"
+    @get "grid"
     .registerGhost @get("ghostName"), @
 
   willClearRender: ->
-    @get "parentView"
+    @get "grid"
     .unregisterGhost @get("ghostName")
 
 `export default GridGhostMixin`

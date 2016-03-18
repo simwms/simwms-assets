@@ -32,12 +32,12 @@
 </div>
 
 {{#map-grid mode=mode action="query" as |grid|}}
-  {{map-grid-polygon model=house}}
-  {{map-grid-polyline model=road}}
-  {{map-grid-tile model=tile}}
-  {{map-grid-ghost model=ghost action="build"}}
-  {{map-grid-ghost-box action="select"}}
-  {{map-grid-ghost-batch action="batch"}}
+  {{map-grid-polygon grid=grid model=house}}
+  {{map-grid-polyline grid=grid model=road}}
+  {{map-grid-tile grid=grid model=tile}}
+  {{map-grid-ghost grid=grid model=ghost action="build"}}
+  {{map-grid-ghost-box grid=grid action="select"}}
+  {{map-grid-ghost-batch grid=grid action="batch"}}
 {{/map-grid}}
 
 {{#if lastEvent}}

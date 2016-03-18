@@ -1,6 +1,6 @@
 `import Ember from 'ember'`
 
-{get, A, computed, Mixin} = Ember
+{get, A, computed, oneWay, Mixin} = Ember
 {alias} = computed
 
 GridElementMixin = Mixin.create
@@ -8,28 +8,28 @@ GridElementMixin = Mixin.create
   tagName: "g"
   classNameBindings: ["selected", "type", "mode"]
   type: alias "model.type"
-  mode: alias "parentView.mode"
+  mode: alias "grid.mode"
   selected: false
   attributeBindings: ["transform"]
-  pixelsPerLength: alias "parentView.pixelsPerLength"
+  pixelsPerLength: alias "grid.pixelsPerLength"
   origin: alias "model.origin"
   points: alias "model.points"
 
   mouseUp: (event) ->
     event.childModel = @get "model"
-    @get "parentView"
+    @get "grid"
     .mouseUp?event
     return false
 
   mouseMove: (event) ->
     event.childModel = @get "model"
-    @get "parentView"
+    @get "grid"
     .mouseMove?event
     return false
 
   click: (event) ->
     event.childModel = @get "model"
-    @get "parentView"
+    @get "grid"
     .click?event
     return false    
 
@@ -48,11 +48,11 @@ GridElementMixin = Mixin.create
       .join " "
 
   willInsertElement: ->
-    @get("parentView")
+    @get("grid")
     .registerSelectable @
 
   willClearRender: ->
-    @get("parentView")
+    @get("grid")
     ?.unregisterSelectable @
 
 `export default GridElementMixin`
